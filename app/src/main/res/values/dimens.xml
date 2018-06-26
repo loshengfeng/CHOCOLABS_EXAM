@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Image height -->
+    <dimen name="image_drama_height">190dp</dimen>
+
+    <!-- View margin -->
+    <dimen name="text_margin">2dp</dimen>
+
+    <!-- Font size -->
+    <dimen name="font_large">17sp</dimen>
+</resources>

@@ -8,24 +8,31 @@ import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("DefaultFileTemplate")
 public class DramaDataResponse {
+    @SuppressWarnings("unused")
     @SerializedName("drama_id")
     private int dramaId;
 
+    @SuppressWarnings("unused")
     @SerializedName("name")
     private String dramaName;
 
+    @SuppressWarnings("unused")
     @SerializedName("total_views")
     private long totalViews;
 
+    @SuppressWarnings("unused")
     @SerializedName("created_at")
     private String createdAt;
 
+    @SuppressWarnings("unused")
     @SerializedName("thumb")
     private String dramaThumb;
 
+    @SuppressWarnings("unused")
     @SerializedName("rating")
     private float dramaRating;
 
+    @SuppressWarnings("unused")
     public int getDramaId() {
         return dramaId;
     }
@@ -34,6 +41,7 @@ public class DramaDataResponse {
         return dramaName;
     }
 
+    @SuppressWarnings("unused")
     public long getTotalViews() {
         return totalViews;
     }

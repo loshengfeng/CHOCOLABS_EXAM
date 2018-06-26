@@ -10,6 +10,7 @@ import java.util.List;
 
 @SuppressWarnings("DefaultFileTemplate")
 public class DramaDataListResponse {
+    @SuppressWarnings("unused")
     @SerializedName("data")
     private List<DramaDataResponse> dramaData;
 
