@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.twjoin.arvin.chocolabs_exam.R;
 import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataResponse;
+import com.twjoin.arvin.chocolabs_exam.listener.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private final List<DramaDataResponse> dramaDataList;
+    private OnClickListener mOnClickListener;
 
     public DramaAdapter(@NonNull Context context) {
         mContext = context;
@@ -56,6 +58,12 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
         holder.textDramaName.setText(dramaName);
         holder.textRating.setText(dramaRating);
         holder.textCreate.setText(dramaCreateAt);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnClickListener.onClick(drama);
+            }
+        });
     }
 
     @Override
@@ -72,6 +80,10 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
     private void addData(@NonNull DramaDataResponse drama) {
         dramaDataList.add(drama);
         notifyDataSetChanged();
+    }
+
+    public void setOnClickListener(@NonNull OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

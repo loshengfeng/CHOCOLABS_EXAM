@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Image height -->
+    <!-- Image -->
+    <dimen name="image_drama_width">150dp</dimen>
     <dimen name="image_drama_height">190dp</dimen>
 
     <!-- View margin -->
