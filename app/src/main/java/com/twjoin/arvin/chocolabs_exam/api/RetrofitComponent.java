@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class RetrofitComponent {
+class RetrofitComponent {
 
     private static Retrofit sRetrofit;
 
