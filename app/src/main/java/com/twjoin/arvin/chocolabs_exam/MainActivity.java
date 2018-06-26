@@ -12,11 +12,14 @@ import com.twjoin.arvin.chocolabs_exam.adapter.DramaAdapter;
 import com.twjoin.arvin.chocolabs_exam.api.ApiComponent;
 import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataListResponse;
 import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataResponse;
+import com.twjoin.arvin.chocolabs_exam.db.operation.DramaOperation;
 import com.twjoin.arvin.chocolabs_exam.listener.HttpCallBack;
 import com.twjoin.arvin.chocolabs_exam.listener.OnClickListener;
 import com.twjoin.arvin.chocolabs_exam.model.Drama;
 import com.twjoin.arvin.chocolabs_exam.utils.DimensionUtils;
 import com.twjoin.arvin.chocolabs_exam.utils.GridSpacingItemDecoration;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,15 +33,21 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private DramaAdapter adapter;
+    private DramaOperation mDramaOperation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
+        initData();
         initView();
         callGetDramaApi();
+    }
+
+    private void initData() {
+        ButterKnife.bind(this);
+        mDramaOperation = DramaOperation.getInstance(this);
     }
 
     private void initView() {
@@ -68,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object obj) {
                 final String data = (String) obj;
-                final DramaDataListResponse dramaDataList = new Gson().fromJson(data, DramaDataListResponse.class);
-                adapter.addAllData(dramaDataList.getDramaData());
+                final DramaDataListResponse dramaDataResponse = new Gson().fromJson(data, DramaDataListResponse.class);
+                final List<DramaDataResponse> dramaDataList = dramaDataResponse.getDramaData();
+
+                adapter.addAllData(dramaDataList);
+                mDramaOperation.insertOrUpdate(dramaDataList);
             }
 
             @Override

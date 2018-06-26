@@ -65,6 +65,7 @@ public class Drama implements Parcelable {
         }
     };
 
+    @SuppressWarnings("unused")
     public int getDramaId() {
         return dramaId;
     }
