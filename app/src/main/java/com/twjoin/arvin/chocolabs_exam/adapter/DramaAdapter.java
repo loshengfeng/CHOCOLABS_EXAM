@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.twjoin.arvin.chocolabs_exam.R;
-import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataResponse;
+import com.twjoin.arvin.chocolabs_exam.db.model.DramaEntity;
 import com.twjoin.arvin.chocolabs_exam.listener.OnClickListener;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    private final List<DramaDataResponse> dramaDataList;
+    private final List<DramaEntity> dramaDataList;
     private OnClickListener mOnClickListener;
 
     public DramaAdapter(@NonNull Context context) {
@@ -47,12 +47,12 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final DramaDataResponse drama = dramaDataList.get(position);
+        final DramaEntity drama = dramaDataList.get(position);
 
-        final String thumbUrl = drama.getDramaThumb();
+        final String thumbUrl = drama.getThumb();
         final String dramaName = drama.getDramaName();
-        final String dramaRating = String.valueOf(drama.getDramaRating());
-        final String dramaCreateAt = drama.getCreatedAt();
+        final String dramaRating = String.valueOf(drama.getRating());
+        final String dramaCreateAt = drama.getCreateAt();
 
         Glide.with(mContext).load(thumbUrl).into(holder.imgThumb);
         holder.textDramaName.setText(dramaName);
@@ -71,14 +71,14 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
         return dramaDataList.size();
     }
 
-    public void addAllData(List<DramaDataResponse> dramaDataList) {
-        for (DramaDataResponse drama : dramaDataList) {
-            addData(drama);
+    public void addAllData(List<DramaEntity> dramaEntityList) {
+        for (DramaEntity dramaEntity : dramaEntityList) {
+            addData(dramaEntity);
         }
     }
 
-    private void addData(@NonNull DramaDataResponse drama) {
-        dramaDataList.add(drama);
+    private void addData(@NonNull DramaEntity dramaEntity) {
+        dramaDataList.add(dramaEntity);
         notifyDataSetChanged();
     }
 
