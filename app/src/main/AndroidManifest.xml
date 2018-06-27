@@ -24,7 +24,18 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".DramaInfoActivity" />
+        <activity android:name=".DramaInfoActivity">
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="www.example.com"
+                    android:pathPrefix="/dramas" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

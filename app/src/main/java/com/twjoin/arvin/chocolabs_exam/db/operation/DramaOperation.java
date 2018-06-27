@@ -11,6 +11,8 @@ import com.twjoin.arvin.chocolabs_exam.db.DaoSession;
 import com.twjoin.arvin.chocolabs_exam.db.DramaEntityDao;
 import com.twjoin.arvin.chocolabs_exam.db.model.DramaEntity;
 
+import org.greenrobot.greendao.query.Query;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,5 +55,13 @@ public class DramaOperation {
 
     public List<DramaEntity> getDramaList() {
         return mDramaEntityDao.queryBuilder().list();
+    }
+
+    public synchronized DramaEntity getDramaByQueryId(long dramaId) {
+        final Query<DramaEntity> query = mDramaEntityDao.queryBuilder()
+                .where(DramaEntityDao.Properties.DramaId.eq(dramaId)).build();
+
+        mDaoSession.clear();
+        return query.list().get(0);
     }
 }
