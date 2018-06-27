@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.twjoin.arvin.chocolabs_exam.R;
 import com.twjoin.arvin.chocolabs_exam.db.model.DramaEntity;
 import com.twjoin.arvin.chocolabs_exam.listener.OnClickListener;
+import com.twjoin.arvin.chocolabs_exam.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,7 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(mLayoutInflater.inflate(R.layout.adapter_drama, parent, false));
     }
-
-
+    
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final DramaEntity drama = dramaDataList.get(position);
@@ -52,7 +52,7 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
         final String thumbUrl = drama.getThumb();
         final String dramaName = drama.getDramaName();
         final String dramaRating = String.valueOf(drama.getRating());
-        final String dramaCreateAt = drama.getCreateAt();
+        final String dramaCreateAt = StringUtils.getConvertTime(drama.getCreateAt());
 
         Glide.with(mContext).load(thumbUrl).into(holder.imgThumb);
         holder.textDramaName.setText(dramaName);
@@ -75,11 +75,6 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
         dramaDataList = dramaEntityList;
         notifyDataSetChanged();
     }
-
-//    private void addData(@NonNull DramaEntity dramaEntity) {
-//        dramaDataList.add(dramaEntity);
-//        notifyDataSetChanged();
-//    }
 
     public void setOnClickListener(@NonNull OnClickListener onClickListener) {
         mOnClickListener = onClickListener;
