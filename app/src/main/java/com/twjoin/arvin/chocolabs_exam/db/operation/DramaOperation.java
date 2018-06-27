@@ -39,7 +39,7 @@ public class DramaOperation {
         return instance;
     }
 
-    public void insertOrUpdate(List<DramaDataResponse> dramaDataList) {
+    public synchronized void insertOrUpdate(List<DramaDataResponse> dramaDataList) {
         final List<DramaEntity> dramaEntityList = new ArrayList<>();
 
         for (DramaDataResponse drama : dramaDataList) {

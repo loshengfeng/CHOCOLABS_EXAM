@@ -12,6 +12,7 @@ import com.twjoin.arvin.chocolabs_exam.adapter.DramaAdapter;
 import com.twjoin.arvin.chocolabs_exam.api.ApiComponent;
 import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataListResponse;
 import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataResponse;
+import com.twjoin.arvin.chocolabs_exam.db.model.DramaEntity;
 import com.twjoin.arvin.chocolabs_exam.db.operation.DramaOperation;
 import com.twjoin.arvin.chocolabs_exam.listener.HttpCallBack;
 import com.twjoin.arvin.chocolabs_exam.listener.OnClickListener;
@@ -80,14 +81,19 @@ public class MainActivity extends AppCompatActivity {
                 final DramaDataListResponse dramaDataResponse = new Gson().fromJson(data, DramaDataListResponse.class);
                 final List<DramaDataResponse> dramaDataList = dramaDataResponse.getDramaData();
 
-                adapter.addAllData(dramaDataList);
                 mDramaOperation.insertOrUpdate(dramaDataList);
+                loadDramaFromDbAndDisplay();
             }
 
             @Override
             public void onFail(String failReason) {
-
+                loadDramaFromDbAndDisplay();
             }
         });
+    }
+
+    private synchronized void loadDramaFromDbAndDisplay() {
+        final List<DramaEntity> dramaEntityList = mDramaOperation.getDramaList();
+        adapter.addAllData(dramaEntityList);
     }
 }
