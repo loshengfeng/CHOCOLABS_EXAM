@@ -3,7 +3,7 @@ package com.twjoin.arvin.chocolabs_exam.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.twjoin.arvin.chocolabs_exam.api.response.DramaDataResponse;
+import com.twjoin.arvin.chocolabs_exam.db.model.DramaEntity;
 
 /**
  * Created by arvin on 2018/6/26.
@@ -19,13 +19,13 @@ public class Drama implements Parcelable {
     private final String dramaThumb;
     private final float dramaRating;
 
-    public Drama(DramaDataResponse drama) {
-        dramaId = drama.getDramaId();
-        dramaName = drama.getDramaName();
-        totalView = drama.getTotalViews();
-        createAt = drama.getCreatedAt();
-        dramaThumb = drama.getDramaThumb();
-        dramaRating = drama.getDramaRating();
+    public Drama(DramaEntity dramaEntity) {
+        dramaId = dramaEntity.getDramaId();
+        dramaName = dramaEntity.getDramaName();
+        totalView = dramaEntity.getTotalViews();
+        createAt = dramaEntity.getCreateAt();
+        dramaThumb = dramaEntity.getThumb();
+        dramaRating = dramaEntity.getRating();
     }
 
     @Override

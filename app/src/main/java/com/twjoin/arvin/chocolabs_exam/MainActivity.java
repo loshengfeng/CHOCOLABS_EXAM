@@ -1,11 +1,16 @@
 package com.twjoin.arvin.chocolabs_exam;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.google.gson.Gson;
 import com.twjoin.arvin.chocolabs_exam.adapter.DramaAdapter;
@@ -19,7 +24,10 @@ import com.twjoin.arvin.chocolabs_exam.listener.OnClickListener;
 import com.twjoin.arvin.chocolabs_exam.model.Drama;
 import com.twjoin.arvin.chocolabs_exam.utils.DimensionUtils;
 import com.twjoin.arvin.chocolabs_exam.utils.GridSpacingItemDecoration;
+import com.twjoin.arvin.chocolabs_exam.utils.SharedPreferencesUtils;
+import com.twjoin.arvin.chocolabs_exam.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private DramaAdapter adapter;
     private DramaOperation mDramaOperation;
 
+    private SharedPreferencesUtils sharedPreferencesUtils;
+
+    private String searchText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
         ButterKnife.bind(this);
         mDramaOperation = DramaOperation.getInstance(this);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getApplicationContext());
+        searchText = sharedPreferencesUtils.getSearchText();
     }
 
     private void initView() {
@@ -59,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dimensionUtils.dpToPx(10)));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
         adapter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(Object obj) {
-                final DramaDataResponse drama = (DramaDataResponse) obj;
-                final Drama dramaModel = new Drama(drama);
+                final DramaEntity dramaEntity = (DramaEntity) obj;
+                final Drama dramaModel = new Drama(dramaEntity);
 
                 final Intent intent = new Intent(MainActivity.this, DramaInfoActivity.class);
                 intent.putExtra(INTENT_DRAMA_DATA, dramaModel);
@@ -93,7 +108,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private synchronized void loadDramaFromDbAndDisplay() {
+        filterDramaAndDisplay(searchText);
+    }
+
+    private synchronized void filterDramaAndDisplay(String searchText) {
+        sharedPreferencesUtils.setSearchText(searchText);
+
         final List<DramaEntity> dramaEntityList = mDramaOperation.getDramaList();
-        adapter.addAllData(dramaEntityList);
+
+        if (StringUtils.isEmpty(searchText)) {
+            adapter.addAllData(dramaEntityList);
+        } else {
+            final List<DramaEntity> dramaFilterList = new ArrayList<>();
+            for (DramaEntity dramaEntity : dramaEntityList) {
+                if (dramaEntity.getDramaName().contains(searchText)) {
+                    dramaFilterList.add(dramaEntity);
+                }
+            }
+            adapter.addAllData(dramaFilterList);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        if (null == searchManager) {
+            return true;
+        }
+
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+
+        searchView.setQuery(searchText, false);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterDramaAndDisplay(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterDramaAndDisplay(newText);
+                return false;
+            }
+        });
+
+        return true;
     }
 }

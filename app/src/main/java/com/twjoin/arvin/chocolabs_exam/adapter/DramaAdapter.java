@@ -29,7 +29,7 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    private final List<DramaEntity> dramaDataList;
+    private List<DramaEntity> dramaDataList;
     private OnClickListener mOnClickListener;
 
     public DramaAdapter(@NonNull Context context) {
@@ -72,15 +72,14 @@ public class DramaAdapter extends RecyclerView.Adapter<DramaAdapter.MyViewHolder
     }
 
     public void addAllData(List<DramaEntity> dramaEntityList) {
-        for (DramaEntity dramaEntity : dramaEntityList) {
-            addData(dramaEntity);
-        }
-    }
-
-    private void addData(@NonNull DramaEntity dramaEntity) {
-        dramaDataList.add(dramaEntity);
+        dramaDataList = dramaEntityList;
         notifyDataSetChanged();
     }
+
+//    private void addData(@NonNull DramaEntity dramaEntity) {
+//        dramaDataList.add(dramaEntity);
+//        notifyDataSetChanged();
+//    }
 
     public void setOnClickListener(@NonNull OnClickListener onClickListener) {
         mOnClickListener = onClickListener;
