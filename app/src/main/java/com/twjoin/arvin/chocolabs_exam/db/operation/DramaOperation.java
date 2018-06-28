@@ -57,11 +57,11 @@ public class DramaOperation {
         return mDramaEntityDao.queryBuilder().list();
     }
 
-    public synchronized DramaEntity getDramaByQueryId(long dramaId) {
+    public synchronized List<DramaEntity> getDramaByQueryId(long dramaId) {
         final Query<DramaEntity> query = mDramaEntityDao.queryBuilder()
                 .where(DramaEntityDao.Properties.DramaId.eq(dramaId)).build();
 
         mDaoSession.clear();
-        return query.list().get(0);
+        return query.list();
     }
 }

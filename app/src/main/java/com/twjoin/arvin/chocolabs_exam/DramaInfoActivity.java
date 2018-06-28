@@ -44,6 +44,7 @@ public class DramaInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drama_info);
         ButterKnife.bind(this);
 
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Uri uri = getIntent().getData();
@@ -61,7 +62,13 @@ public class DramaInfoActivity extends AppCompatActivity {
             final String dramaId = pathSegments.get(1).toString();
 
             final DramaOperation dramaOperation = DramaOperation.getInstance(this);
-            final DramaEntity dramaEntity = dramaOperation.getDramaByQueryId(Long.valueOf(dramaId));
+            final List<DramaEntity> dramaEntityList = dramaOperation.getDramaByQueryId(Long.valueOf(dramaId));
+
+            if (dramaEntityList.isEmpty()) {
+                return;
+            }
+
+            final DramaEntity dramaEntity = dramaEntityList.get(0);
 
             final String thumbUrl = dramaEntity.getThumb();
             final String dramaName = dramaEntity.getDramaName();
@@ -79,6 +86,7 @@ public class DramaInfoActivity extends AppCompatActivity {
         textRating.setText(dramaRating);
         textCreate.setText(dramaCreateAt);
         textTotalView.setText(dramaTotalView);
+        //noinspection ConstantConditions
         getSupportActionBar().setTitle(dramaName);
     }
 

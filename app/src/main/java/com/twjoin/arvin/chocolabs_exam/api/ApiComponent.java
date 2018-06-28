@@ -47,7 +47,7 @@ public class ApiComponent {
 
         private final HttpCallBack mHttpCallBack;
 
-        public CustomObserver(@NonNull HttpCallBack httpCallBack) {
+        private CustomObserver(@NonNull HttpCallBack httpCallBack) {
             mHttpCallBack = httpCallBack;
         }
 
@@ -69,7 +69,6 @@ public class ApiComponent {
             } else {
                 mHttpCallBack.onFail("Fail Response");
             }
-
         }
 
         @Override
