@@ -3,6 +3,7 @@ package com.twjoin.arvin.chocolabs_exam;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class DramaInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drama_info);
         ButterKnife.bind(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final Uri uri = getIntent().getData();
         if (null == uri) {
             final Drama dramaModel = getIntent().getParcelableExtra(INTENT_DRAMA_DATA);
@@ -76,5 +79,14 @@ public class DramaInfoActivity extends AppCompatActivity {
         textRating.setText(dramaRating);
         textCreate.setText(dramaCreateAt);
         textTotalView.setText(dramaTotalView);
+        getSupportActionBar().setTitle(dramaName);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
