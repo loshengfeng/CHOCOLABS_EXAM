@@ -8,6 +8,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Property;
 
+import java.math.BigDecimal;
+
 /**
  * Created by arvin on 2018/6/26.
  */
@@ -58,7 +60,7 @@ public class DramaEntity {
         this.totalViews = drama.getTotalViews();
         this.createAt = drama.getCreatedAt();
         this.thumb = drama.getDramaThumb();
-        this.rating = drama.getDramaRating();
+        this.rating = new BigDecimal(drama.getDramaRating()).setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
     public Long getId() {
